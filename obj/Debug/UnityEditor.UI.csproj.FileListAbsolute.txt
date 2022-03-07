@@ -1,0 +1,2 @@
+D:\OneDrive - bbzzd\OneDrive\Documents\GitHub\prototype-beta\Plataform 3D\obj\Debug\UnityEditor.UI.csproj.AssemblyReference.cache
+D:\OneDrive - bbzzd\OneDrive\Documents\GitHub\prototype-beta\Plataform 3D\obj\Debug\UnityEditor.UI.csproj.CoreCompileInputs.cache
