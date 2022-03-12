@@ -153,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
             maxSpeed = walking.maxSpeed;            
         }
 
-        m_Rigidbody.AddForce(new Vector3(input.x, input.y, 0f) * moveForce);
+        m_Rigidbody.AddForce(new Vector3(input.x, input.y, 0f) * moveForce * Time.deltaTime);
         Vector3 maxVelocity = m_Rigidbody.velocity;
         maxVelocity.x = Mathf.Clamp(maxVelocity.x, -maxSpeed * -input.x, maxSpeed * input.x);
        
@@ -196,14 +196,16 @@ public class PlayerMovement : MonoBehaviour
 
         m_LastWallTrouched = null;
         m_WallTouching = null;
+
+        if (other.CompareTag("Water"))
+        {
+            StartSwin();
+        }
     }
     private void OnTriggerStay(Collider other)
     {
        
-        if(other.CompareTag("Water")) 
-        {
-            StartSwin();
-        }
+        
         
     }
     private void OnTriggerExit(Collider other)
