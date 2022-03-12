@@ -8,6 +8,7 @@ public class PlayerCollision
 {
     public float right;
     public float left;
+    public float ground;
 }
 
 [System.Serializable]
@@ -35,9 +36,11 @@ public class PlayerMovement : MonoBehaviour
     public Swinning swinning;
     public Walking walking;
     
+
     public Transform model;
 
     private Rigidbody m_Rigidbody;    
+    private PlayerAttack attack;
     private bool m_IsGrounded = false;
     private bool m_IsCollisionLefft;
     private bool m_IsCollisionRight;
@@ -50,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();    
+        attack = GetComponent<PlayerAttack>();
 
     }
 
@@ -69,6 +73,15 @@ public class PlayerMovement : MonoBehaviour
         if (m_IsCollisionLefft && hit.collider.gameObject != null)
         {
             m_LastWallTrouched = hit.collider.gameObject;
+        }
+
+        bool wasGrounded = m_IsGrounded;
+        m_IsGrounded = Physics.Raycast(new Ray(transform.position, Vector3.down), out hit, collision.ground);
+        if (!wasGrounded && m_IsGrounded)
+        {
+            m_Jumps = 0;
+            m_LastWallTrouched = null;
+            m_WallTouching = null;
         }
 
     }
@@ -127,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
     private void JumpUp(float jumpForce)
     {
         m_Rigidbody.AddForce(0f, jumpForce, 0f);
-        m_IsGrounded = false;
+   
         m_Jumps++;
     }
     private void ClampJump()
@@ -155,9 +168,12 @@ public class PlayerMovement : MonoBehaviour
 
         m_Rigidbody.AddForce(new Vector3(input.x, input.y, 0f) * moveForce * Time.deltaTime);
         Vector3 maxVelocity = m_Rigidbody.velocity;
-        maxVelocity.x = Mathf.Clamp(maxVelocity.x, -maxSpeed * -input.x, maxSpeed * input.x);
-       
-       
+
+        if (!attack.IsAttacking())
+        {
+            maxVelocity.x = Mathf.Clamp(maxVelocity.x, -maxSpeed * -input.x, maxSpeed * input.x);
+        }
+
         m_Rigidbody.velocity = maxVelocity;
 
         WhatLookingDirection(input.x);
@@ -190,12 +206,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        m_IsGrounded = true;
-        m_Jumps = 0;
-
-        m_LastWallTrouched = null;
-        m_WallTouching = null;
+    {           
 
         if (other.CompareTag("Water"))
         {
@@ -210,7 +221,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        m_IsGrounded = false;
+       
         
         if (other.CompareTag("Water"))
         {

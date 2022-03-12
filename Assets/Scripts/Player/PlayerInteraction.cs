@@ -5,11 +5,16 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour
 {
     public float ropeExitTime;
+    public float distanceFoot;
+    public float attackJumForce;
+    public int damageOnJump;
+
 
     PlayerMovement m_Movement;
     PlayerController controller;
     PlayerRopeSwingging ropeSwingging;
-
+    PlayerLife life;
+    PlayerAttack attack;
 
     float currentRopeExitTime;
     bool isJumpingRope = false; 
@@ -19,6 +24,8 @@ public class PlayerInteraction : MonoBehaviour
         m_Movement = GetComponent<PlayerMovement>();
         controller = GetComponent<PlayerController>();
         ropeSwingging = GetComponent<PlayerRopeSwingging>();
+        life = GetComponent<PlayerLife>();
+        attack = GetComponent<PlayerAttack>();  
     }
 
     private void Update()
@@ -37,6 +44,18 @@ public class PlayerInteraction : MonoBehaviour
             }
             
         }
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(new Ray(transform.position, Vector3.down), out hit, distanceFoot))
+        {
+            DestructbleBeahavior destructble = hit.collider.GetComponent<DestructbleBeahavior>();
+            if (destructble != null)
+            {
+                destructble.ApplyDamage(damageOnJump);
+                m_Movement.Jump(attackJumForce);
+            }
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -46,29 +65,22 @@ public class PlayerInteraction : MonoBehaviour
             GameObject.Destroy(other.gameObject);
         }
 
-        Trampolin trampolin = other.GetComponent<Trampolin>();
-
-        if (trampolin != null)
-        {
-            m_Movement.Jump(trampolin.jumpForce);
-        }
+       
     }
 
 
     private void OnTriggerExit(Collider other)
     {
-       
-        if (other.transform.CompareTag("Water"))
-        {
-          
-        }
+      
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.transform.CompareTag("Water"))
+        Trampolin trampolin = other.GetComponent<Trampolin>();
+
+        if (trampolin != null)
         {
-           
+            m_Movement.Jump(trampolin.jumpForce);
         }
     }
 
@@ -84,6 +96,18 @@ public class PlayerInteraction : MonoBehaviour
             {
                 ropeSwingging.AttachRope(rope, collision.gameObject);
             }
+        }
+
+        EnemyBehavior enemy = collision.gameObject.GetComponentInParent<EnemyBehavior>();
+        if (enemy != null)
+        {
+            if (attack.IsAttacking())
+            {
+                enemy.ApplyDamage(attack.damage);
+            }
+
+            life.ApplyDamage();
+
         }
     }
 

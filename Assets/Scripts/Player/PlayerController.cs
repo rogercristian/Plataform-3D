@@ -8,7 +8,8 @@ public class PlayerController : MonoBehaviour
     private Vector2 m_InputDirection; 
     private PlayerMovement m_Movement;
     private  PlayerRopeSwingging m_RopeSwinging;
-
+    private PlayerLife life;
+    private PlayerAttack attack;
     private bool isMoving;
 
     private bool isRopeSwingging;
@@ -19,15 +20,20 @@ public class PlayerController : MonoBehaviour
     {
         m_Movement = GetComponent<PlayerMovement>();
         m_RopeSwinging = GetComponent<PlayerRopeSwingging>();
+        life = GetComponent<PlayerLife>();
+        attack = GetComponent<PlayerAttack>();  
         isMoving = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!life.isAlive) return;
+
         m_InputDirection.x = Input.GetAxis("Horizontal");
         m_InputDirection.y = Input.GetAxis("Vertical");
         bool jumped = Input.GetButtonDown("Jump");
+        bool attacked = Input.GetButtonDown("Fire1");
 
         m_Movement.Move(m_InputDirection);
 
@@ -36,6 +42,11 @@ public class PlayerController : MonoBehaviour
             if (jumped)
             {
                 m_Movement.Jump();
+            }
+
+            if (attacked)
+            {
+                attack.Attack(m_InputDirection.x);
             }
         }
         else if (isRopeSwingging)

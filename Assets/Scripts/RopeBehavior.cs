@@ -44,6 +44,10 @@ public class RopeBehavior : MonoBehaviour
         {
             player.transform.position = playerNode.position + gripOffset;
         }
+        else
+        {
+            gripNode.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        }
     }
 
     public void AttachPlayer(PlayerRopeSwingging player, GameObject node)
