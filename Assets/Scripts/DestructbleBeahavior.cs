@@ -44,4 +44,9 @@ public class DestructbleBeahavior : MonoBehaviour
         m_Rigidbody.GetComponent<Collider>().enabled = false;
         Destroy(gameObject,timeTodDestroy);
     }
+
+    public bool IsAlive()
+    {
+        return m_Life > 0;
+    }
 }

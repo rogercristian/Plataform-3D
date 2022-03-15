@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7846868981145018941}
   - component: {fileID: 7846868981145018930}
   - component: {fileID: 7846868981145018940}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Rope
   m_TagString: Rope
   m_Icon: {fileID: 0}
@@ -61,9 +61,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72fb7a5f824c90d45bb4df30ead52318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: 15
-  offset: 0.55
-  mass: 20
+  size: 30
+  offset: 0.2
+  mass: 10
   gripNodeAdjust: 2
 --- !u!1 &7846868981727543974
 GameObject:
@@ -79,7 +79,7 @@ GameObject:
   - component: {fileID: 7846868981727543969}
   - component: {fileID: 7846868981727543971}
   - component: {fileID: 7846868981727543968}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Node
   m_TagString: Rope
   m_Icon: {fileID: 0}

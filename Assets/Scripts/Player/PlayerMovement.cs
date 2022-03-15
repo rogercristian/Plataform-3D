@@ -117,6 +117,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(float jumpForce)
     {
+        Vector3 v = m_Rigidbody.velocity;
+        v.y = 0;
+        m_Rigidbody.velocity = v;
+
         JumpUp(jumpForce);
     }
 
