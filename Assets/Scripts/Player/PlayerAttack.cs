@@ -13,12 +13,15 @@ public class PlayerAttack : MonoBehaviour
     float currentAttackRate;
     float currentDashingTime;
     Rigidbody rb;
+
+    private PlayerAnimator playerAnimator;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         currentAttackRate = attackRate;
         currentDashingTime = dashingTime;
+        playerAnimator = GetComponent<PlayerAnimator>();
        // trail = GetComponentInChildren<TrailRenderer>();
     }
 
@@ -32,6 +35,8 @@ public class PlayerAttack : MonoBehaviour
         {
             trail.gameObject.SetActive(false);
         }
+
+        playerAnimator.SetIsDashing(IsAttacking());
     }
 
     public void Attack(float direction)

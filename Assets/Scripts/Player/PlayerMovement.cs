@@ -34,10 +34,9 @@ public class PlayerMovement : MonoBehaviour
 {
     public PlayerCollision collision;
     public Swinning swinning;
-    public Walking walking;
-    
-
+    public Walking walking;  
     public Transform model;
+ 
 
     private Rigidbody m_Rigidbody;    
     private PlayerAttack attack;
@@ -49,12 +48,16 @@ public class PlayerMovement : MonoBehaviour
 
     private GameObject m_LastWallTrouched;
     private GameObject m_WallTouching;
+    private PlayerAnimator m_Animator;
+
+   
     // Start is called before the first frame update
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();    
         attack = GetComponent<PlayerAttack>();
-
+        m_Animator = GetComponent<PlayerAnimator>();
+      
     }
 
     // Update is called once per frame
@@ -77,6 +80,9 @@ public class PlayerMovement : MonoBehaviour
 
         bool wasGrounded = m_IsGrounded;
         m_IsGrounded = Physics.Raycast(new Ray(transform.position, Vector3.down), out hit, collision.ground);
+
+        m_Animator.SetIsJumping(!m_IsGrounded);
+        
         if (!wasGrounded && m_IsGrounded)
         {
             m_Jumps = 0;
@@ -87,6 +93,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Jump()
     {
+        
         //if (!m_IsGrounded && m_Jumps == 0) return;
         if (!m_IsGrounded && (m_IsCollisionRight || m_IsCollisionLefft))
             {
@@ -101,7 +108,9 @@ public class PlayerMovement : MonoBehaviour
                     }
                 m_Jumps = walking.totalJump;
                 ClampJump();
+
                 m_WallTouching = m_LastWallTrouched;
+
             }
         }
         else if (m_Jumps < walking.totalJump)
@@ -109,6 +118,7 @@ public class PlayerMovement : MonoBehaviour
             if ((m_Jumps == 0 && m_IsGrounded) || m_Jumps > 0)
             {
                 JumpUp();
+                m_Animator.SetIsJumping(false);
             
              }
             ClampJump();
@@ -156,18 +166,24 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Move(Vector2 input)
     {
+        
+        m_Animator.SetIsWalking(input.x != 0);
         float maxSpeed, moveForce;
 
         if (m_IsSwinning)
         {
             moveForce = swinning.moveForce;
             maxSpeed = swinning.maxSpeed;
+            m_Animator.SetIsSwinning(true);
+           
         }
         else
         {
             input.y = 0;
             moveForce = walking.moveForce;
-            maxSpeed = walking.maxSpeed;            
+            maxSpeed = walking.maxSpeed;
+            m_Animator.SetIsSwinning(false);            
+
         }
 
         m_Rigidbody.AddForce(new Vector3(input.x, input.y, 0f) * moveForce * Time.deltaTime);
@@ -208,7 +224,7 @@ public class PlayerMovement : MonoBehaviour
         m_IsSwinning = false;
         m_Rigidbody.AddForce(0f, swinning.jumpForce, 0f);
     }
-
+   
     private void OnTriggerEnter(Collider other)
     {           
 
@@ -217,12 +233,7 @@ public class PlayerMovement : MonoBehaviour
             StartSwin();
         }
     }
-    private void OnTriggerStay(Collider other)
-    {
-       
-        
-        
-    }
+   
     private void OnTriggerExit(Collider other)
     {
        

@@ -10,10 +10,11 @@ public class PlayerController : MonoBehaviour
     private  PlayerRopeSwingging m_RopeSwinging;
     private PlayerLife life;
     private PlayerAttack attack;
+    
     private bool isMoving;
 
     private bool isRopeSwingging;
-
+    private PlayerAnimator playerAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
         life = GetComponent<PlayerLife>();
         attack = GetComponent<PlayerAttack>();  
         isMoving = true;
+        playerAnimator = GetComponent<PlayerAnimator>();  
     }
 
     // Update is called once per frame
@@ -48,6 +50,9 @@ public class PlayerController : MonoBehaviour
             {
                 attack.Attack(m_InputDirection.x);
             }
+            playerAnimator.SetIsRope(false);
+          
+
         }
         else if (isRopeSwingging)
         {
@@ -74,6 +79,8 @@ public class PlayerController : MonoBehaviour
     {
         isRopeSwingging=value;
         isMoving = !value;
+        playerAnimator.SetIsRope(true);
+    
     }
     public  bool GetIsRopeSwingging()
     {
