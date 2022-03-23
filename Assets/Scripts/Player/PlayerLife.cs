@@ -16,6 +16,10 @@ public class PlayerLife : MonoBehaviour
     private float currentTimeBlinking;
     private Renderer[] m_Renderer;
     private PlayerAttack attack;
+
+    private PlayerAnimator playerAnimator;
+
+    Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +27,8 @@ public class PlayerLife : MonoBehaviour
         currentTimeInvencible = timeInvencible;
         m_Renderer = model.GetComponentsInChildren<Renderer>();
         attack = GetComponent<PlayerAttack>();
+        playerAnimator = GetComponent<PlayerAnimator>();
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -50,17 +56,25 @@ public class PlayerLife : MonoBehaviour
                 r.enabled = true;
             }
         }
+
+        if (!isAlive)
+        {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+
+        }
     }
 
     public void ApplyDamage()
     {
-        if(!IsInvencible()) {
+        if(!IsInvencible() && isAlive) 
+        {
             life --;
             currentTimeInvencible = 0;
 
             if (life < 1)
             {
                 isAlive = false;
+                playerAnimator.SetIsDead();
             }
         }
     }

@@ -6,7 +6,7 @@ public class DestructbleBeahavior : MonoBehaviour
 {
     public int maxLife;
     public float timeTodDestroy;
-
+    public List<GameObject> spawnAfterDestroy;
     private int m_Life;
 
     private Rigidbody m_Rigidbody;
@@ -42,7 +42,16 @@ public class DestructbleBeahavior : MonoBehaviour
     {
         m_Rigidbody.isKinematic = true;
         m_Rigidbody.GetComponent<Collider>().enabled = false;
-        Destroy(gameObject,timeTodDestroy);
+
+        if (spawnAfterDestroy.Count > 0)
+        {
+            foreach(GameObject go in spawnAfterDestroy) { 
+            Instantiate(go, transform.position, transform.rotation);
+
+            }
+        }
+        Destroy(gameObject, timeTodDestroy);
+
     }
 
     public bool IsAlive()

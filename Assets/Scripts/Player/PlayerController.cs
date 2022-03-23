@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private bool isRopeSwingging;
     private PlayerAnimator playerAnimator;
 
+    Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
         attack = GetComponent<PlayerAttack>();  
         isMoving = true;
         playerAnimator = GetComponent<PlayerAnimator>();  
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -40,10 +42,11 @@ public class PlayerController : MonoBehaviour
         m_Movement.Move(m_InputDirection);
 
         if (isMoving)
-        {
+        {           
             if (jumped)
             {
                 m_Movement.Jump();
+               
             }
 
             if (attacked)

@@ -50,7 +50,8 @@ public class PlayerMovement : MonoBehaviour
     private GameObject m_WallTouching;
     private PlayerAnimator m_Animator;
 
-   
+    private float currentTimeEnterWater;
+    private bool timeEnterWater;
     // Start is called before the first frame update
     void Start()
     {
@@ -82,12 +83,24 @@ public class PlayerMovement : MonoBehaviour
         m_IsGrounded = Physics.Raycast(new Ray(transform.position, Vector3.down), out hit, collision.ground);
 
         m_Animator.SetIsJumping(!m_IsGrounded);
-        
+
         if (!wasGrounded && m_IsGrounded)
         {
             m_Jumps = 0;
             m_LastWallTrouched = null;
             m_WallTouching = null;
+
+        }
+
+        if(timeEnterWater && m_IsSwinning)
+        {
+            currentTimeEnterWater += Time.deltaTime;
+            if(currentTimeEnterWater > 0.2f)
+            {
+                currentTimeEnterWater = 0;
+                m_Rigidbody.velocity = new Vector3(0, swinning.gravity, 0);
+                timeEnterWater = false;
+            }
         }
 
     }
@@ -109,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
                 m_Jumps = walking.totalJump;
                 ClampJump();
 
+                m_Animator.SetIsJumping(false);
                 m_WallTouching = m_LastWallTrouched;
 
             }
@@ -127,12 +141,27 @@ public class PlayerMovement : MonoBehaviour
 
     public void Jump(float jumpForce)
     {
+        PrepareJump();
+        JumpUp(jumpForce);
+        m_Jumps++;
+       // m_Animator.SetIsJumping(false);
+    }
+
+    public void Jump(Vector3 force)
+    {
+        PrepareJump();
+        m_Rigidbody.AddForce(force.x, force.y, 0f);
+
+        m_Jumps++;
+    }
+    private void PrepareJump()
+    {
         Vector3 v = m_Rigidbody.velocity;
         v.y = 0;
         m_Rigidbody.velocity = v;
-
-        JumpUp(jumpForce);
     }
+
+
 
     private void JumpLeft()
     {       
@@ -175,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
             moveForce = swinning.moveForce;
             maxSpeed = swinning.maxSpeed;
             m_Animator.SetIsSwinning(true);
-           
+            m_Animator.SetIsJumping(false);
         }
         else
         {
@@ -215,8 +244,11 @@ public class PlayerMovement : MonoBehaviour
     private void StartSwin()
     {
         m_Rigidbody.useGravity = false;
-        m_Rigidbody.velocity = new Vector3(0f, swinning.gravity, 0f);
+        timeEnterWater = true;
+        //m_Rigidbody.velocity = new Vector3(0f, swinning.gravity, 0f);
         m_IsSwinning = true;
+
+
     }
     private void StopSwin()
     {
@@ -243,4 +275,5 @@ public class PlayerMovement : MonoBehaviour
             StopSwin();
         }
     }
+    
 }

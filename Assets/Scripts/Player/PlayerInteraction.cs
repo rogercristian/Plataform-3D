@@ -6,6 +6,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     public float ropeExitTime;
     public float distanceFoot;
+    public float distanceHead;
     public float attackJumForce;
     public int damageOnJump;
 
@@ -15,6 +16,7 @@ public class PlayerInteraction : MonoBehaviour
     PlayerRopeSwingging ropeSwingging;
     PlayerLife life;
     PlayerAttack attack;
+    Rigidbody rb;
 
     float currentRopeExitTime;
     bool isJumpingRope = false; 
@@ -26,6 +28,7 @@ public class PlayerInteraction : MonoBehaviour
         ropeSwingging = GetComponent<PlayerRopeSwingging>();
         life = GetComponent<PlayerLife>();
         attack = GetComponent<PlayerAttack>();  
+        rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -56,6 +59,18 @@ public class PlayerInteraction : MonoBehaviour
                 m_Movement.Jump(attackJumForce);
             }
         }
+
+        if(Physics.Raycast(new Ray(transform.position, Vector3.up), out hit, distanceHead))
+        {
+            DestructbleBeahavior destructble = hit.collider.GetComponent<DestructbleBeahavior>();
+            if(destructble != null && destructble.GetComponent<EnemyBehavior>() == null)
+            {
+                destructble.ApplyDamage(damageOnJump);
+                Vector3 v = rb.velocity;
+                v.y = 0;
+                rb.velocity = v;
+            }
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -63,9 +78,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             GameController.AddCoin(1);
             GameObject.Destroy(other.gameObject);
-        }
-
-       
+        }       
     }
 
 

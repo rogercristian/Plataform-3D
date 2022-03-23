@@ -39,7 +39,46 @@ ModelImporter:
   - first:
       74: -7503066599389584604
     second: Armature|Walk02
-  externalObjects: {}
+  - first:
+      74: 4814827875775583155
+    second: Armature|Armature|Armature|Walk02
+  - first:
+      74: -7587739521010079988
+    second: Armature|Armature|Armature|Parado
+  - first:
+      74: 6351413282336927520
+    second: Armature|Armature|Armature|Swin
+  - first:
+      74: 8448626595410282591
+    second: Armature|Armature|Armature|Swing
+  - first:
+      74: -3968001693889913642
+    second: Armature|Armature|Armature|Jump2
+  - first:
+      74: 3012729011791291226
+    second: Armature|Armature|Armature|Jump
+  - first:
+      74: -7115633696644778947
+    second: Armature|Armature|Armature|Dash
+  - first:
+      74: -4667982684801181050
+    second: Armature|Armature|Armature|Dead
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Corneas
+    second: {fileID: 2100000, guid: b6f739bb485b3e44da2277cd7b92ad25, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Iris
+    second: {fileID: 2100000, guid: a8414ecbf75a77045bb7af32fe9bc5ea, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Qilin_Body
+    second: {fileID: 2100000, guid: cbc8e8c3010f85c448fb98e3384ac4a0, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -97,8 +136,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Dash
-      takeName: Armature|Dash
+      name: Armature|Armature|Armature|Dash
+      takeName: Armature|Armature|Armature|Dash
       internalID: 0
       firstFrame: 0
       lastFrame: 23
@@ -126,8 +165,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Dead
-      takeName: Armature|Dead
+      name: Armature|Armature|Armature|Dead
+      takeName: Armature|Armature|Armature|Dead
       internalID: 0
       firstFrame: 0
       lastFrame: 39
@@ -213,18 +252,18 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Jump
-      takeName: Armature|Jump
+      name: Armature|Armature|Armature|Jump2
+      takeName: Armature|Armature|Armature|Jump
       internalID: 0
-      firstFrame: 0
-      lastFrame: 60
+      firstFrame: 11
+      lastFrame: 50
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -242,8 +281,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Parado
-      takeName: Armature|Parado
+      name: Armature|Armature|Armature|Parado
+      takeName: Armature|Armature|Armature|Parado
       internalID: 0
       firstFrame: 0
       lastFrame: 59
@@ -300,8 +339,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Swin
-      takeName: Armature|Swin
+      name: Armature|Armature|Armature|Swin
+      takeName: Armature|Armature|Armature|Swin
       internalID: 0
       firstFrame: 0
       lastFrame: 59
@@ -329,8 +368,8 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Swing
-      takeName: Armature|Swing
+      name: Armature|Armature|Armature|Swing
+      takeName: Armature|Armature|Armature|Swing
       internalID: 0
       firstFrame: 0
       lastFrame: 59
@@ -387,11 +426,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|Walk02
-      takeName: Armature|Walk02
+      name: Armature|Armature|Armature|Walk02
+      takeName: Armature|Armature|Armature|Walk02
       internalID: 0
       firstFrame: 0
-      lastFrame: 58
+      lastFrame: 59
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -415,6 +454,35 @@ ModelImporter:
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|Armature|Armature|Jump
+      takeName: Armature|Armature|Armature|Jump
+      internalID: 0
+      firstFrame: 0
+      lastFrame: 58
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 58
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 58
     isReadable: 0
   meshes:
     lODScreenPercentages: []
